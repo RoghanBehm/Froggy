@@ -1,22 +1,18 @@
-# Compiler and runtime
 JAVAC = javac
 JAVA = java
 
-# Directories
 SRC_DIR = froggy/src/froggy
 BUILD_DIR = build
 
-# Find all Java files
 SOURCES = $(wildcard $(SRC_DIR)/*.java)
 
-# Main class
 MAIN_CLASS = froggy.src.froggy.Froggy
 
-# Default target
+# Default
 .PHONY: all
 all: compile
 
-# Compile all Java files to build directory
+# Compile to build directory
 .PHONY: compile
 compile:
 	mkdir -p $(BUILD_DIR)
@@ -32,12 +28,12 @@ run: compile
 repl: compile
 	$(JAVA) -cp $(BUILD_DIR) $(MAIN_CLASS)
 
-# Clean up build directory
+# Clean up build dir
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
 
-# Help
+# Commands
 .PHONY: help
 help:
 	@echo "Usage:"

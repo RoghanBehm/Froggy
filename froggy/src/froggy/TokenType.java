@@ -25,9 +25,13 @@ enum TokenType {
   MUL,         
   DIV,         
   
-  // Comparison
+  // Comparison (push 0 or 1)
   EQUALS,     
-  LESS_THAN,   
+  LESS_THAN,
+  GREATER_THAN,
+  LESS_EQ,
+  GREATER_EQ,   
+  NOT_EQUAL,
   
   // Literals
   NUMBER,

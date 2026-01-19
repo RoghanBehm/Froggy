@@ -14,7 +14,7 @@ public class Froggy {
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
-            System.out.println("Usage: froggy [file]");
+            System.out.println("Usage: make run ARGS=[file]");
             System.exit(64);
         } else if (args.length == 1) {
             runFile(args[0]);
@@ -49,10 +49,16 @@ public class Froggy {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        // For now, just print the tokens.
+        Compiler compiler = new Compiler(tokens);
+        String assembly = compiler.compile();
+
+        System.out.println(assembly);
+
+        /* Debug
         for (Token token : tokens) {
             System.out.println(token);
         }
+         */
     }
 
     static void error(int line, String message) {
