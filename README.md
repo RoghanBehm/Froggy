@@ -1,20 +1,30 @@
 # Froggy
-A compiler for a very simple stack-based, frog-themed language. Compiles to x86 assembly (NASM syntax). 
+A simple stack-based compiler with frog-themed operations. Compiles to x86-64 assembly (NASM syntax). 
 
-**Stack operations:** `PLOP` (push), `SPLASH` (pop), `GULP` (increment), `BURP` (decrement), `DUP`, `SWAP`, `OVER`  
+## Operations
+**Stack:** `PLOP` (push), `SPLASH` (pop), `GULP` (increment), `BURP` (decrement), `DUP`, `SWAP`, `OVER`  
 **Arithmetic:** `ADD`, `SUB`, `MUL`, `DIV`  
-**Comparisons:** `EQUALS`, `LESS_THAN`, `GREATER_THAN`, `LESS_EQ`, `GREATER_EQ`, `NOT_EQUAL`  
-**Control flow:** `LILY` (label), `HOP` (jump), `LEAP` (conditional jump if zero)  
-**I/O:** `RIBBIT` (print integer), `CROAK` (print string), `TONGUE` (input) *(to be implemented)*
+**Comparison:** `EQUALS`, `LESS_THAN`, `GREATER_THAN`, `LESS_EQ`, `GREATER_EQ`, `NOT_EQUAL`  
+**Control flow:** `LILY` (label), `HOP` (jump), `LEAP` (jump if zero)  
+**I/O:** `RIBBIT` (print int), `CROAK` (print string)
 
-An example program, `example.frog`, sits at the root of the project directory. Compile and run with `make run ARGS=example.frog`.
+## Example
+```
+PLOP 42
+RIBBIT          // prints: 42
+```
 
-I primarily wrote this to familiarise myself with basic Java syntax and to refresh myself on assembly essentials.
+See `example.frog` for a simple loop.
 
-## TODO
-- Implement `TONGUE` (input to stack from stdin)
+## Usage
+Requires Java, NASM, and ld.
 
-## Attributions
-- The lexer is adapted from that presented in Crafting Interpreter's treewalk interpreter.
-- Integer printing subroutine is from [x86_64 Linux Assembly #8 - Subroutine to Print Integers](https://www.youtube.com/watch?v=XuUD0WQ9kaE).
-- String printing subroutine is from [x86_64 Linux Assembly #6 - Subroutine to Print Strings](https://www.youtube.com/watch?v=Fz7Ts9RN0o4)
+```bash
+make run ARGS=example.frog    # compile to assembly
+nasm -f elf64 output.asm      # assemble
+ld output.o -o output         # link
+./output                      # run
+```
+
+## Notes
+Written to practice Java syntax and refresh assembly basics. Lexer adapted from Crafting Interpreters. Print routines from Kupala's x86-64 assembly tutorials.
