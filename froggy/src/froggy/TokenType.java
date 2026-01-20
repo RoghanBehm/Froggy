@@ -2,8 +2,9 @@ package froggy.src.froggy;
 
 enum TokenType {
   // Stack operations
-  RIBBIT,      // output top of stack
-  CROAK,       // input to stack
+  RIBBIT,      // output int at top of stack
+  CROAK,       // ooutput string at top of stack
+  TONGUE,      // input to stack
   PLOP,        // push number
   SPLASH,      // pop from stack
   GULP,        // increment top

@@ -36,6 +36,47 @@ class Compiler {
         emit("    xor rdi, rdi");
         emit("    syscall");
 
+        // Printing
+        emit("_printNumberRAX:");
+        emit("    mov rcx, digitSpace");
+        emit("    mov rbx, 10");
+        emit("    mov [rcx], rbx");
+        emit("    inc rcx");
+        emit("    mov [digitSpacePos], rcx");
+        emit("");
+        emit("_printRAXLoop:");
+        emit("    mov rdx, 0");
+        emit("    mov rbx, 10");
+        emit("    div rbx");    // Extract digit
+        emit("    push rax");
+        emit("    add rdx, 48"); // Convert to ASCII code
+        emit("");
+        emit("    mov rcx, [digitSpacePos]");
+        emit("    mov [rcx], dl");  // Write ASCII char to digit space
+        emit("    inc rcx");
+        emit("    mov [digitSpacePos], rcx"); // increment digit space ptr
+        emit("");
+        emit("    pop rax");
+        emit("    cmp rax, 0");
+        emit("    jne _printRAXLoop");
+        emit("");
+        emit("_printRAXLoop2:");
+        emit("    mov rcx, [digitSpacePos]");
+        emit("");
+        emit("    mov rax, 1"); // write syscall
+        emit("    mov rdi, 1"); //fd
+        emit("    mov rsi, rcx"); //data address
+        emit("    mov rdx, 1"); // num bytes
+        emit("    syscall");
+
+        emit("    mov rcx, [digitSpacePos]");
+        emit("    dec rcx");
+        emit("    mov [digitSpacePos], rcx"); // dec ptr
+        emit("    cmp rcx, digitSpace");
+        emit("    jge _printRAXLoop2");
+        emit("");
+        emit("    ret");
+
         return asm.toString();
     }
 
@@ -45,9 +86,12 @@ class Compiler {
 
     private void compileToken(Token token) {
         switch (token.type()) {
-            case RIBBIT, CROAK, EOF -> {
+            case RIBBIT-> {
+                emit("    call _printNumberRAX");
             }
-            case PLOP -> emit("    push " + consume(TokenType.NUMBER, "Expected number").literal());
+            
+            case CROAK, EOF, TONGUE -> { }
+            case PLOP -> emit("    push " + (int)(double)consume(TokenType.NUMBER, "Expected number").literal());
             case SPLASH -> emit("    pop rax");
             case GULP -> emit("    inc qword [rsp]");
             case BURP -> emit("    dec qword [rsp]");
