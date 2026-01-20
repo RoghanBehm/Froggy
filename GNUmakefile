@@ -1,12 +1,12 @@
 JAVAC = javac
 JAVA = java
 
-SRC_DIR = froggy/src/froggy
+SRC_DIR = src
 BUILD_DIR = build
 
 SOURCES = $(wildcard $(SRC_DIR)/*.java)
 
-MAIN_CLASS = froggy.src.froggy.Froggy
+MAIN_CLASS = src.Froggy
 
 # Default
 .PHONY: all
@@ -26,7 +26,7 @@ run: compile
 # Run REPL mode
 .PHONY: repl
 repl: compile
-	$(JAVA) -cp $(BUILD_DIR) $(MAIN_CLASS)
+	@$(JAVA) -cp $(BUILD_DIR) $(MAIN_CLASS)
 
 # Clean up build dir
 .PHONY: clean
@@ -37,7 +37,7 @@ clean:
 .PHONY: help
 help:
 	@echo "Usage:"
-	@echo "  make compile  - Compile all Java files"
+	@echo "  make compile            - Compile all Java files"
 	@echo "  make run ARGS=file.frog - Run with a file"
-	@echo "  make repl     - Run interactive REPL"
-	@echo "  make clean    - Remove build directory"
+	@echo "  make repl               - Run interactive REPL"
+	@echo "  make clean              - Remove build directory"

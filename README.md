@@ -22,10 +22,10 @@ See `test.frog` for an exhaustive test of all operations.
 Requires Java, NASM, and ld.
 
 ```bash
-make run ARGS=example.frog    # compile to assembly
-nasm -f elf64 output.asm      # assemble
-ld output.o -o output         # link
-./output                      # run
+make run ARGS=examples/example.frog > example.asm    # compile to assembly
+nasm -f elf64 example.asm                            # assemble
+ld example.o -o example                              # link
+./example                                            # run
 ```
 
 ## Notes
@@ -33,4 +33,4 @@ Written to practice Java syntax and refresh assembly basics. Lexer adapted from 
 
 ## Limitations
 - `RIBBIT` treats all numbers as unsigned.
-- REPL mode is a bit pointless as it just prints asm rather than executing anything, and it prints all of the boilerplate each time.
+- REPL mode is a bit pointless as it just prints asm rather than executing anything, + it prints all of the boilerplate each time.

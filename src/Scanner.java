@@ -1,11 +1,11 @@
-package froggy.src.froggy;
+package src;
+
+import static src.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static froggy.src.froggy.TokenType.*;
 
 class Scanner {
   private final String source;

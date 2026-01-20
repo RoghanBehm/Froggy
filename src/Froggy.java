@@ -1,5 +1,4 @@
-package froggy.src.froggy;
-
+package src;
 
 import java.io.BufferedReader;
 import java.io.IOException;

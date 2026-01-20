@@ -1,4 +1,4 @@
-package froggy.src.froggy;
+package src;
 
 record Token(TokenType type, String lexeme, Object literal, int line) {
   @Override

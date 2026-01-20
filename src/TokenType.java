@@ -1,4 +1,4 @@
-package froggy.src.froggy;
+package src;
 
 enum TokenType {
   // Stack operations

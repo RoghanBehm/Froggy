@@ -1,4 +1,4 @@
-package froggy.src.froggy;
+package src;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
