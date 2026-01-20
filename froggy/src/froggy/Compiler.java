@@ -17,97 +17,14 @@ class Compiler {
 
     public String compile() {
 
-        // Header (for RIBBIT and CROAK)
-        emit("section .data");
-        emit("    newline db 10");
-        emit("");
-        emit("section .bss");
-        emit("    digitSpace resb 100");
-        emit("    digitSpacePos resb 8");
-        emit("");
-        emit("section .text");
-        emit("    global _start");
-        emit("");
-        emit("_start:");
+        emitHeader();
 
         // Code gen
         while (!isAtEnd()) {
             compileToken(advance());
         }
 
-        // Exit
-        emit("    mov rax, 60");
-        emit("    xor rdi, rdi");
-        emit("    syscall");
-
-        // Printing
-        emit("_printStringRAX:");
-        emit("    mov r8, rax");
-        emit("    xor rbx, rbx");
-        emit("_printStringLoop:");
-        emit("    mov cl, [rax]");
-        emit("    cmp cl, 0");
-        emit("    je _printStringDone");
-        emit("    inc rax");
-        emit("    inc rbx");
-        emit("    jmp _printStringLoop");
-        emit("_printStringDone:");
-        emit("    mov rax, 1");
-        emit("    mov rdi, 1");
-        emit("    mov rsi, r8");
-        emit("    mov rdx, rbx");
-        emit("    syscall");
-        emit("    ret");
-
-        emit("_printNumberRAX:");
-        emit("    mov rcx, digitSpace");
-        emit("    mov byte [rcx], 10");
-        emit("    inc rcx");
-        emit("    mov [digitSpacePos], rcx");
-        emit("");
-        emit("_printNumberRAXLoop:");
-        emit("    mov rdx, 0");
-        emit("    mov rbx, 10");
-        emit("    div rbx"); // Extract digit
-        emit("    push rax");
-        emit("    add rdx, 48"); // Convert to ASCII code
-        emit("");
-        emit("    mov rcx, [digitSpacePos]");
-        emit("    mov [rcx], dl"); // Write ASCII char to digit space
-        emit("    inc rcx");
-        emit("    mov [digitSpacePos], rcx"); // increment digit space ptr
-        emit("");
-        emit("    pop rax");
-        emit("    cmp rax, 0");
-        emit("    jne _printNumberRAXLoop");
-        emit("");
-        emit("_printNumberRAXLoop2:");
-        emit("    mov rcx, [digitSpacePos]");
-        emit("    dec rcx");
-        emit("");
-        emit("    mov rax, 1"); // write syscall
-        emit("    mov rdi, 1"); // fd
-        emit("    mov rsi, rcx"); // data address
-        emit("    mov rdx, 1"); // num bytes
-        emit("    syscall");
-
-        emit("    mov rcx, [digitSpacePos]");
-        emit("    dec rcx");
-        emit("    mov [digitSpacePos], rcx"); // dec ptr
-        emit("    cmp rcx, digitSpace");
-        emit("    jge _printNumberRAXLoop2");
-        emit("");
-        emit("    ret");
-
-        // Define strings
-        if (!stringLiterals.isEmpty()) {
-            emit("");
-            emit("section .data");
-            for (int i = 0; i < stringLiterals.size(); i++) {
-                String bytesList = nasmDbBytes(stringLiterals.get(i), true);
-                emit("    str_" + i + " db " + bytesList);
-            }
-        }
+        emitFooter();
 
         return asm.toString();
     }
@@ -257,6 +174,104 @@ class Compiler {
             out.append(", ");
         out.append("0"); // null terminator
         return out.toString();
+    }
+
+    private void emitHeader() {
+        emit("section .data");
+        emit("    newline db 10");
+        emit("");
+        emit("section .bss");
+        emit("    digitSpace resb 100");
+        emit("    digitSpacePos resb 8");
+        emit("");
+        emit("section .text");
+        emit("    global _start");
+        emit("");
+        emit("_start:");
+    }
+
+    private void emitExit() {
+        emit("    mov rax, 60");
+        emit("    xor rdi, rdi");
+        emit("    syscall");
+    }
+
+    private void emitPrintFunctions() {
+        // Printing
+        emit("_printStringRAX:");
+        emit("    mov r8, rax");
+        emit("    xor rbx, rbx");
+        emit("_printStringLoop:");
+        emit("    mov cl, [rax]");
+        emit("    cmp cl, 0");
+        emit("    je _printStringDone");
+        emit("    inc rax");
+        emit("    inc rbx");
+        emit("    jmp _printStringLoop");
+        emit("_printStringDone:");
+        emit("    mov rax, 1");
+        emit("    mov rdi, 1");
+        emit("    mov rsi, r8");
+        emit("    mov rdx, rbx");
+        emit("    syscall");
+        emit("    ret");
+
+        emit("_printNumberRAX:");
+        emit("    mov rcx, digitSpace");
+        emit("    mov byte [rcx], 10");
+        emit("    inc rcx");
+        emit("    mov [digitSpacePos], rcx");
+        emit("");
+        emit("_printNumberRAXLoop:");
+        emit("    mov rdx, 0");
+        emit("    mov rbx, 10");
+        emit("    div rbx"); // Extract digit
+        emit("    push rax");
+        emit("    add rdx, 48"); // Convert to ASCII code
+        emit("");
+        emit("    mov rcx, [digitSpacePos]");
+        emit("    mov [rcx], dl"); // Write ASCII char to digit space
+        emit("    inc rcx");
+        emit("    mov [digitSpacePos], rcx"); // increment digit space ptr
+        emit("");
+        emit("    pop rax");
+        emit("    cmp rax, 0");
+        emit("    jne _printNumberRAXLoop");
+        emit("");
+        emit("_printNumberRAXLoop2:");
+        emit("    mov rcx, [digitSpacePos]");
+        emit("    dec rcx");
+        emit("");
+        emit("    mov rax, 1"); // write syscall
+        emit("    mov rdi, 1"); // fd
+        emit("    mov rsi, rcx"); // data address
+        emit("    mov rdx, 1"); // num bytes
+        emit("    syscall");
+
+        emit("    mov rcx, [digitSpacePos]");
+        emit("    dec rcx");
+        emit("    mov [digitSpacePos], rcx"); // dec ptr
+        emit("    cmp rcx, digitSpace");
+        emit("    jge _printNumberRAXLoop2");
+        emit("");
+        emit("    ret");
+    }
+
+    private void emitStringDefs() {
+        if (!stringLiterals.isEmpty()) {
+            emit("");
+            emit("section .data");
+            for (int i = 0; i < stringLiterals.size(); i++) {
+                String bytesList = nasmDbBytes(stringLiterals.get(i), true);
+                emit("    str_" + i + " db " + bytesList);
+            }
+        }
+    }
+
+    private void emitFooter() {
+        emitExit();
+        emitPrintFunctions();
+        emitStringDefs();
     }
 
 }
