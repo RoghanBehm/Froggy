@@ -21,21 +21,41 @@ LOOP:
     setl al
     movzx rax, al
     push rax
+    pop rax
     call _printNumberRAX
+    push str_0
+    pop rax
+    call _printStringRAX
     pop rax
     cmp rax, 0
     je LOOP
     mov rax, 60
     xor rdi, rdi
     syscall
+_printStringRAX:
+    mov r8, rax
+    xor rbx, rbx
+_printStringLoop:
+    mov cl, [rax]
+    cmp cl, 0
+    je _printStringDone
+    inc rax
+    inc rbx
+    jmp _printStringLoop
+_printStringDone:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, r8
+    mov rdx, rbx
+    syscall
+    ret
 _printNumberRAX:
     mov rcx, digitSpace
-    mov rbx, 10
-    mov [rcx], rbx
+    mov byte [rcx], 10
     inc rcx
     mov [digitSpacePos], rcx
 
-_printRAXLoop:
+_printNumberRAXLoop:
     mov rdx, 0
     mov rbx, 10
     div rbx
@@ -49,10 +69,11 @@ _printRAXLoop:
 
     pop rax
     cmp rax, 0
-    jne _printRAXLoop
+    jne _printNumberRAXLoop
 
-_printRAXLoop2:
+_printNumberRAXLoop2:
     mov rcx, [digitSpacePos]
+    dec rcx
 
     mov rax, 1
     mov rdi, 1
@@ -63,6 +84,10 @@ _printRAXLoop2:
     dec rcx
     mov [digitSpacePos], rcx
     cmp rcx, digitSpace
-    jge _printRAXLoop2
+    jge _printNumberRAXLoop2
 
     ret
+
+section .data
+    str_0 db 72, 73, 10, 0
+

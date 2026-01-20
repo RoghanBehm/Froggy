@@ -12,9 +12,9 @@ An example program, `example.frog`, sits at the root of the project directory. C
 I primarily wrote this to familiarise myself with basic Java syntax and to refresh myself on assembly essentials.
 
 ## TODO
-- Implement `CROAK` (out string top of stack)
-- Implement `TONGUE` (input to stack)
+- Implement `TONGUE` (input to stack from stdin)
 
 ## Attributions
 - The lexer is adapted from that presented in Crafting Interpreter's treewalk interpreter.
-- Integer printing implementation taken from [x86_64 Linux Assembly #8 - Subroutine to Print Integers](https://www.youtube.com/watch?v=XuUD0WQ9kaE).
+- Integer printing subroutine is from [x86_64 Linux Assembly #8 - Subroutine to Print Integers](https://www.youtube.com/watch?v=XuUD0WQ9kaE).
+- String printing subroutine is from [x86_64 Linux Assembly #6 - Subroutine to Print Strings](https://www.youtube.com/watch?v=Fz7Ts9RN0o4)
