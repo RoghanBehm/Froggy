@@ -16,6 +16,8 @@ RIBBIT          // prints: 42
 
 See `example.frog` for a simple loop.
 
+See `test.frog` for an exhaustive test of all operations.
+
 ## Usage
 Requires Java, NASM, and ld.
 
@@ -28,3 +30,7 @@ ld output.o -o output         # link
 
 ## Notes
 Written to practice Java syntax and refresh assembly basics. Lexer adapted from Crafting Interpreters. Print routines from Kupala's x86-64 assembly tutorials.
+
+## Limitations
+- `RIBBIT` treats all numbers as unsigned.
+- REPL mode is a bit pointless as it just prints asm rather than executing anything, and it prints all of the boilerplate each time.

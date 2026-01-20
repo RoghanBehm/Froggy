@@ -1,0 +1,154 @@
+// Froggy comprehensive test file
+
+// Test 1: Basic stack operations and integer output
+PLOP 42
+RIBBIT
+
+// Test 2: String output
+PLOP "Hello from Froggy!"
+CROAK
+
+// Test 3: GULP (increment) and BURP (decrement)
+PLOP 10
+GULP
+GULP
+DUP
+RIBBIT        // should print 12
+BURP
+RIBBIT        // should print 11
+
+// Test 4: DUP (duplicate)
+PLOP 99
+DUP
+RIBBIT        // should print 99
+RIBBIT        // should print 99
+
+// Test 5: SWAP
+PLOP 5
+PLOP 7
+SWAP
+RIBBIT        // should print 5
+RIBBIT        // should print 7
+
+// Test 6: OVER (copy second to top)
+PLOP 11
+PLOP 22
+OVER
+RIBBIT        // should print 11
+RIBBIT        // should print 22
+RIBBIT        // should print 11
+
+// Test 7: Arithmetic - ADD
+PLOP 10
+PLOP 32
+ADD
+RIBBIT        // should print 42
+
+// Test 8: Arithmetic - SUB
+PLOP 50
+PLOP 8
+SUB
+RIBBIT        // should print 42
+
+// Test 9: Arithmetic - MUL
+PLOP 6
+PLOP 7
+MUL
+RIBBIT        // should print 42
+
+// Test 10: Arithmetic - DIV
+PLOP 84
+PLOP 2
+DIV
+RIBBIT        // should print 42
+
+// Test 11: EQUALS (should print 1 for true)
+PLOP 5
+PLOP 5
+EQUALS
+RIBBIT        // should print 1
+
+// Test 12: EQUALS (should print 0 for false)
+PLOP 5
+PLOP 3
+EQUALS
+RIBBIT        // should print 0
+
+// Test 13: LESS_THAN
+PLOP 3
+PLOP 5
+LESS_THAN
+RIBBIT        // should print 1 (3 < 5)
+
+// Test 14: GREATER_THAN
+PLOP 5
+PLOP 3
+GREATER_THAN
+RIBBIT        // should print 1 (5 > 3)
+
+// Test 15: LESS_EQ
+PLOP 5
+PLOP 5
+LESS_EQ
+RIBBIT        // should print 1 (5 <= 5)
+
+// Test 16: GREATER_EQ
+PLOP 7
+PLOP 5
+GREATER_EQ
+RIBBIT        // should print 1 (7 >= 5)
+
+// Test 17: NOT_EQUAL
+PLOP 3
+PLOP 5
+NOT_EQUAL
+RIBBIT        // should print 1 (3 != 5)
+
+// Test 18: Unconditional jump (HOP)
+PLOP "Before jump"
+CROAK
+HOP SKIP
+PLOP "This should not print"
+CROAK
+LILY SKIP
+PLOP "After jump"
+CROAK
+
+// Test 19: Conditional jump (LEAP) - jump when zero
+PLOP 0
+LEAP ZERO_JUMP
+PLOP "Should not print"
+CROAK
+LILY ZERO_JUMP
+PLOP "Jumped because zero"
+CROAK
+
+// Test 20: Conditional jump - don't jump when non-zero
+PLOP 1
+LEAP NO_JUMP
+PLOP "Did not jump"
+CROAK
+LILY NO_JUMP
+
+// Test 21: Simple loop (count to 3)
+PLOP 0
+LILY COUNT_LOOP
+GULP
+DUP
+RIBBIT
+DUP
+PLOP 3
+EQUALS
+PLOP 0
+EQUALS
+LEAP COUNT_LOOP
+SPLASH
+
+// Test 22: SPLASH (pop)
+PLOP 999
+PLOP 888
+SPLASH        // removes 888
+RIBBIT        // should print 999
+
+PLOP "All tests complete!"
+CROAK

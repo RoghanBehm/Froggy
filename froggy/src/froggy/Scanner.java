@@ -184,5 +184,7 @@ class Scanner {
     keywords.put("LESS_THAN", LESS_THAN);
     keywords.put("GREATER_EQ", GREATER_EQ);
     keywords.put("NOT_EQUAL", NOT_EQUAL);
+    keywords.put("GREATER_THAN", GREATER_THAN);
+    keywords.put("LESS_EQ", LESS_EQ);
   }
 }

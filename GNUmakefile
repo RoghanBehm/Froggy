@@ -15,13 +15,13 @@ all: compile
 # Compile to build directory
 .PHONY: compile
 compile:
-	mkdir -p $(BUILD_DIR)
-	$(JAVAC) -d $(BUILD_DIR) $(SOURCES)
+	@mkdir -p $(BUILD_DIR)
+	@$(JAVAC) -d $(BUILD_DIR) $(SOURCES)
 
 # Run with a file argument
 .PHONY: run
 run: compile
-	$(JAVA) -cp $(BUILD_DIR) $(MAIN_CLASS) $(ARGS)
+	@$(JAVA) -cp $(BUILD_DIR) $(MAIN_CLASS) $(ARGS)
 
 # Run REPL mode
 .PHONY: repl
